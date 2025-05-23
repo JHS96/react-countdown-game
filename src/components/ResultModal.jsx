@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 // Recieving "ref" as a prop works on React v19 and later. Earlier versions reqire use of "forwardRef"
 // which is used here for demonstration purposes, as it works on both current and older React versions.
@@ -21,7 +22,7 @@ const ResultModal = forwardRef(function ResultModal(
     };
   });
 
-  return (
+  return createPortal(
     <dialog ref={dialog} className='result-modal' onClose={onReset}>
       {userLost && <h2>You lost</h2>}
       {!userLost && <h2>Your Score: {score}</h2>}
@@ -35,7 +36,8 @@ const ResultModal = forwardRef(function ResultModal(
       <form method='dialog' onSubmit={onReset}>
         <button>Close</button>
       </form>
-    </dialog>
+    </dialog>,
+    document.getElementById('modal')
   );
 });
 
